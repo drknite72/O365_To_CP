@@ -66,7 +66,7 @@ def parseURL(urls1):
             while i < x:
                 y += "."+urlsplit[i]
                 i += 1
-            outputstr+=(y+" non-FQDN"+'\n')
+            outputstr+=(y+" non-FQDN"+'\n')          
     return(outputstr)
 
 # path where client ID and latest version number will be stored
@@ -201,9 +201,12 @@ if version['latest'] > latestVersion:
     #print('URLs Done')
 
     URL2 = []
+    SA2 = []
     for url in flatUrls:
         URL1 = str(url[4])
         URL2.append(URL1)
+        SA1 = str(url[1])
+        SA2.append(SA1)
     urlstrList = parseURL(URL2)
     writeDataOut(url_list,urlstrList)
 

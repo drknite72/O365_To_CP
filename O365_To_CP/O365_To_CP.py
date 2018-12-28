@@ -50,8 +50,10 @@ def writeDataOut(destFile,fileData):
 
 def parseURL(urls1):
     outputstr = ""
+    SAstr =""
     for url in urls1:
-        urlsplit = url.split(".")
+        urlsplit = url[0].split(".")
+        SA = url[1]
         x = len(urlsplit)
         i=1
         y=""
@@ -61,12 +63,15 @@ def parseURL(urls1):
                 y += "."+urlsplit[i]
                 i += 1
             outputstr+=(y+" FQDN"+'\n')
+            SAstr+=(y+" "+SA+'\n')
         else:
             i=0
             while i < x:
                 y += "."+urlsplit[i]
                 i += 1
-            outputstr+=(y+" non-FQDN"+'\n')          
+            outputstr+=(y+" non-FQDN"+'\n')
+            SAstr+=(y+" "+SA+'\n')
+    outputstr+=SAstr
     return(outputstr)
 
 # path where client ID and latest version number will be stored
@@ -201,13 +206,11 @@ if version['latest'] > latestVersion:
     #print('URLs Done')
 
     URL2 = []
-    SA2 = []
     for url in flatUrls:
         URL1 = str(url[4])
-        URL2.append(URL1)
         SA1 = str(url[1])
-        SA2.append(SA1)
-    urlstrList = parseURL(URL2)
+        URL2.extend([(URL1, SA1)]) 
+    urlstrList = parseURL(URL2) #bugger me if it didnt work and now get both group and urls.
     writeDataOut(url_list,urlstrList)
 
     SortAndRemove(url_list,url_list_sorted)

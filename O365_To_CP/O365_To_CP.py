@@ -66,7 +66,7 @@ def parseURL(urls1):
             while i < x:
                 y += "."+urlsplit[i]
                 i += 1
-            outputstr+=(y+" non-FQDN"+'\n')
+            outputstr+=(y+" non-FQDN"+'\n') ###
     return(outputstr)
 
 # path where client ID and latest version number will be stored

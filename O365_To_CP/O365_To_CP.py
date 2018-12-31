@@ -62,15 +62,30 @@ def parseURL(urls1):
             while i < x:
                 y += "."+urlsplit[i]
                 i += 1
-            outputstr+=(y+" FQDN"+'\n')
-            SAstr+=(y+" "+SA+'\n')
+            outputstr+=("add dns-domain name "+y+" is-sub-domain true"+'\n')
+            if SA == "Exchange":
+                SAstr+=('set group name Microsoft_O365_DO_Exchange members.add "'+y+'"'+'\n')
+            elif SA == "SharePoint":
+                SAstr+=('set group name Microsoft_O365_DO_SharePoint members.add "'+y+'"'+'\n')
+            elif SA == "Skype":
+                SAstr+=('set group name Microsoft_O365_DO_Skype members.add "'+y+'"'+'\n')
+            else:
+                SAstr+=('set group name Microsoft_O365_DO_Common members.add "'+y+'"'+'\n')
         else:
             i=0
             while i < x:
                 y += "."+urlsplit[i]
                 i += 1
-            outputstr+=(y+" non-FQDN"+'\n')
-            SAstr+=(y+" "+SA+'\n')
+            outputstr+=("add dns-domain name "+y+" is-sub-domain false"+'\n')
+            if SA == "Exchange":
+                SAstr+=('set group name Microsoft_O365_DO_Exchange members.add "'+y+'"'+'\n')
+            elif SA == "SharePoint":
+                SAstr+=('set group name Microsoft_O365_DO_SharePoint members.add "'+y+'"'+'\n')
+            elif SA == "Skype":
+                SAstr+=('set group name Microsoft_O365_DO_Skype members.add "'+y+'"'+'\n')
+            else:
+                SAstr+=('set group name Microsoft_O365_DO_Common members.add "'+y+'"'+'\n')
+
     outputstr+=SAstr
     return(outputstr)
 
@@ -78,7 +93,7 @@ def parseURL(urls1):
 datapath = './endpoints_clientid_latestversion.txt'
 
 # URL List for for Firewall
-url_list = './365_url_list.txt'
+url_list = './365_url_list.tmp'
 url_list_sorted = './365_url_list_sorted.txt'
 
 # IPv4 List for Firewall
@@ -89,12 +104,12 @@ ip_nets_sorted = './365_nets_list_sorted.txt'
 
 # Group creating script
 o365_groups = './365_groups.txt'
-net_groups = "./net_group.txt"
+net_groups = "./365_Add2_groups.txt"
 
 #Temp delete txt files for testing
-r = [f for f in glob.glob("*.txt")]
-for f in r:
-    os.remove (f)
+#r = [f for f in glob.glob("*.txt")]
+#for f in r:
+#    os.remove (f)
 
 
 # fetch client ID and version if data exists; otherwise create new file
@@ -197,13 +212,6 @@ if version['latest'] > latestVersion:
     print('IPv4 ranges Done')
 
     SortAndRemove(ip_nets,ip_nets_sorted)
-
-    #print('URLs List')
-    #with open(url_list, 'w') as data_write:
-    #    for url in flatUrls:
-    #        URL2 = url[4]
-    #        data_write.write(str(url[0])+' , '+url[1]+' , '+URL2+'\n')
-    #print('URLs Done')
 
     URL2 = []
     for url in flatUrls:

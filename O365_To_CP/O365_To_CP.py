@@ -172,7 +172,7 @@ if version['latest'] > latestVersion:
         CIDR = IP2[1]
         serviceArea2 = ip[1]
         if CIDR == "255.255.255.255":
-            HT1+=str('add network name "Microsoft_O365_H_'+ipAdd+'" ip-address "'+ipAdd+'\n')
+            HT1+=str('add network name "Microsoft_O365_H_'+ipAdd+'" ip-address "'+ipAdd+'"'+'\n')
  #           HT2+=str('add network name "Microsoft_O365_H_'+ipAdd+'" ip-address "'+ipAdd+'\n')
             if ip[1] == "Exchange":
                 HT2+=str('set group name Microsoft_O365_Exchange members.add "Microsoft_O365_H_'+ipAdd+'"'+'\n')

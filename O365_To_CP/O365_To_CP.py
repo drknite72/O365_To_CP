@@ -76,7 +76,10 @@ def parseURL(urls1):
             while i < x:
                 y += "."+urlsplit[i]
                 i += 1
-            outputstr+=("add dns-domain name "+y+" is-sub-domain false"+'\n')
+            if y == ".outlook.office.com":
+                outputstr+=('\n')
+            else:
+                outputstr+=("add dns-domain name "+y+" is-sub-domain false"+'\n')
             if SA == "Exchange":
                 SAstr+=('set group name Microsoft_O365_DO_Exchange members.add "'+y+'"'+'\n')
             elif SA == "SharePoint":
@@ -172,7 +175,7 @@ if version['latest'] > latestVersion:
         CIDR = IP2[1]
         serviceArea2 = ip[1]
         if CIDR == "255.255.255.255":
-            HT1+=str('add network name "Microsoft_O365_H_'+ipAdd+'" ip-address "'+ipAdd+'"'+'\n')
+            HT1+=str('add host name "Microsoft_O365_H_'+ipAdd+'" ip-address "'+ipAdd+'"'+'\n')
  #           HT2+=str('add network name "Microsoft_O365_H_'+ipAdd+'" ip-address "'+ipAdd+'\n')
             if ip[1] == "Exchange":
                 HT2+=str('set group name Microsoft_O365_Exchange members.add "Microsoft_O365_H_'+ipAdd+'"'+'\n')
